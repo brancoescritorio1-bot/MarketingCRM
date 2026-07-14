@@ -5,6 +5,11 @@ import cookieParser from "cookie-parser";
 import { db } from './src/db/index.js';
 import { users, clients } from './src/db/schema.js';
 import { authRouter } from './src/server/auth.js';
+import { clientsRouter } from './src/server/clients.js';
+import { contentsRouter } from './src/server/contents.js';
+import { libraryRouter } from './src/server/library.js';
+import { financeRouter } from './src/server/finance.js';
+import { chatRouter } from './src/server/chat.js';
 
 async function startServer() {
   const app = express();
@@ -19,6 +24,11 @@ async function startServer() {
   });
   
   app.use("/api/auth", authRouter);
+  app.use("/api/clients", clientsRouter);
+  app.use("/api/contents", contentsRouter);
+  app.use("/api/library", libraryRouter);
+  app.use("/api/finance", financeRouter);
+  app.use("/api/chat", chatRouter);
 
   // Example API route for users
   app.get('/api/users', async (req, res) => {

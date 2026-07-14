@@ -9,6 +9,8 @@ export const authRouter = Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-jwt-key';
 
+authRouter.get('/check-admin', async (req, res) => { try { const result = await db.select().from(users).where(eq(users.email, 'larapecanha2015@gmail.com')); res.json({ exists: result.length > 0 }); } catch (error: any) { res.status(500).json({ error: error.message }); } });
+
 authRouter.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {

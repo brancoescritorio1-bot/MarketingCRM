@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/context/AuthContext';
 
 export function InitialCheck() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
@@ -11,35 +12,27 @@ export function InitialCheck() {
   }, []);
 
   const checkAdmin = async () => {
-    if (!supabase) {
-        navigate('/login');
-        return;
-    }
-    
-    // Check if user is already logged in
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
+    if (user) {
       navigate('/');
       return;
     }
-
+    
     if (localStorage.getItem('checkedAdmin')) {
       navigate('/login');
       return;
     }
 
-    const { data } = await supabase
-      .from('usuarios')
-      .select('id')
-      .eq('email', 'larapecanha2015@gmail.com')
-      .maybeSingle();
-
-    localStorage.setItem('checkedAdmin', 'true');
-
-    if (data) {
+    try {
+      const res = await fetch('/api/auth/check-admin');
+      const data = await res.json();
+      localStorage.setItem('checkedAdmin', 'true');
+      if (data.exists) {
+        navigate('/login');
+      } else {
+        navigate('/setup-admin');
+      }
+    } catch (e) {
       navigate('/login');
-    } else {
-      navigate('/setup-admin');
     }
   };
 

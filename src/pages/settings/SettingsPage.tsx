@@ -91,8 +91,8 @@ export function SettingsPage() {
                   <div className="flex items-center">
                     <Database className="w-5 h-5 text-green-600 mr-3" />
                     <div>
-                      <p className="font-medium text-green-900">Banco de Dados (Supabase)</p>
-                      <p className="text-sm text-green-700">Online • 14ms de latência</p>
+                      <p className="font-medium text-green-900">Banco de Dados (Cloud SQL)</p>
+                      <p className="text-sm text-green-700">Online</p>
                     </div>
                   </div>
                   <span className="px-3 py-1 bg-green-200 text-green-800 text-xs font-semibold rounded-full">Operacional</span>
