@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
@@ -8,56 +7,27 @@ export function SetupAdminPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [checking, setChecking] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    checkAdminExists();
-  }, []);
-
-  const checkAdminExists = async () => {
-    if (!supabase) return;
-    const { data } = await supabase
-      .from('usuarios')
-      .select('id')
-      .eq('email', 'larapecanha2015@gmail.com')
-      .maybeSingle();
-
-    if (data) {
-      navigate('/login');
-    } else {
-      setChecking(false);
-    }
-  };
 
   const handleSetup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!supabase) return;
-    
+        
     setLoading(true);
     setError('');
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: 'larapecanha2015@gmail.com',
-        password,
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'larapecanha2015@gmail.com', password, name: 'Administrador' })
       });
-
-      if (authError) throw authError;
-      if (!authData.user) throw new Error('Falha ao criar usuário');
-
-      const { error: dbError } = await (supabase as any).from('usuarios').insert([
-        {
-          id: authData.user.id,
-          email: 'larapecanha2015@gmail.com',
-          nome: 'Administrador',
-          perfil: 'administrador',
-          status: 'ativo',
-        },
-      ]);
-
-      if (dbError) throw dbError;
-
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Erro ao configurar admin');
+      }
+      
       navigate('/');
     } catch (err: any) {
       setError(err.message);
@@ -65,8 +35,6 @@ export function SetupAdminPage() {
       setLoading(false);
     }
   };
-
-  if (checking) return <div>Verificando...</div>;
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-50">

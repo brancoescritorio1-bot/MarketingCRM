@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/Button';
 import { Client } from '@/types/client';
 import { Plus, Search, MoreVertical } from 'lucide-react';
@@ -17,14 +16,20 @@ export function ClientsPage() {
 
   const fetchClients = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from('clients').select('*');
-    if (data) setClients(data);
-    setLoading(false);
+    try {
+      const res = await fetch('/api/clients');
+      const data = await res.json();
+      if (res.ok) setClients(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    client.company.toLowerCase().includes(searchTerm.toLowerCase())
+    (client.company || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
