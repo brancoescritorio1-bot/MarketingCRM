@@ -13,6 +13,10 @@ export function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) {
+      setError('Supabase não configurado');
+      return;
+    }
     setLoading(true);
     setError('');
 
@@ -29,7 +33,7 @@ export function LoginPage() {
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
         <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} className="mb-6" />
-        <Button className="w-full" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</Button>
+        <Button type="submit" className="w-full" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</Button>
       </form>
     </div>
   );

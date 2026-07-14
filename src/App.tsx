@@ -7,8 +7,22 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
+import { InitialCheck } from '@/components/InitialCheck';
 import { LoginPage } from '@/pages/auth/LoginPage';
+import { SetupAdminPage } from '@/pages/auth/SetupAdminPage';
+import { ClientsPage } from '@/pages/clients/ClientsPage';
+import { ClientFormPage } from '@/pages/clients/ClientFormPage';
 import { ModulePlaceholder } from '@/pages/ModulePlaceholder';
+import { PipelinePage } from '@/pages/pipeline/PipelinePage';
+import { LibraryPage } from '@/pages/library/LibraryPage';
+import { AiChatPage } from '@/pages/ai/AiChatPage';
+import { IntegrationsPage } from '@/pages/integrations/IntegrationsPage';
+import { FinancePage } from '@/pages/finance/FinancePage';
+import { ReportsPage } from '@/pages/reports/ReportsPage';
+import { AutomationsPage } from '@/pages/automations/AutomationsPage';
+import { SettingsPage } from '@/pages/settings/SettingsPage';
+import { ClientPortalPage } from '@/pages/client-portal/ClientPortalPage';
+import { SetupWizardPage } from '@/pages/auth/SetupWizardPage';
 
 export default function App() {
   return (
@@ -16,18 +30,25 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/setup-admin" element={<SetupAdminPage />} />
+          <Route path="/setup-wizard" element={<SetupWizardPage />} />
+          <Route path="/portal/:token" element={<ClientPortalPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<DashboardLayout />}>
               <Route index element={<div>Dashboard</div>} />
-              <Route path="clients" element={<ModulePlaceholder title="Clientes" />} />
+              <Route path="clients" element={<ClientsPage />} />
+              <Route path="clients/new" element={<ClientFormPage />} />
+              <Route path="clients/:id" element={<ModulePlaceholder title="Perfil do Cliente" />} />
               <Route path="calendar" element={<ModulePlaceholder title="Calendário" />} />
               <Route path="contents" element={<ModulePlaceholder title="Conteúdos" />} />
-              <Route path="pipeline" element={<ModulePlaceholder title="Pipeline" />} />
-              <Route path="library" element={<ModulePlaceholder title="Biblioteca" />} />
-              <Route path="finance" element={<ModulePlaceholder title="Financeiro" />} />
-              <Route path="reports" element={<ModulePlaceholder title="Relatórios" />} />
-              <Route path="ai" element={<ModulePlaceholder title="Inteligência Artificial" />} />
-              <Route path="settings" element={<ModulePlaceholder title="Configurações" />} />
+              <Route path="pipeline" element={<PipelinePage />} />
+              <Route path="library" element={<LibraryPage />} />
+              <Route path="ai" element={<AiChatPage />} />
+              <Route path="integrations" element={<IntegrationsPage />} />
+              <Route path="finance" element={<FinancePage />} />
+              <Route path="reports" element={<ReportsPage />} />
+              <Route path="automations" element={<AutomationsPage />} />
+              <Route path="settings" element={<SettingsPage />} />
             </Route>
           </Route>
         </Routes>

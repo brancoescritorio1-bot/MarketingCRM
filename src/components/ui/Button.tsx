@@ -7,12 +7,14 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   className?: string;
   children?: React.ReactNode;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export function Button({ 
   className, 
   variant = 'primary', 
   size = 'md', 
+  type = 'button',
   ...props 
 }: ButtonProps) {
   const variants = {
@@ -30,6 +32,7 @@ export function Button({
 
   return (
     <button 
+      type={type}
       className={cn(
         "inline-flex items-center justify-center rounded-md font-medium transition-colors",
         variants[variant],

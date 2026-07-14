@@ -1,5 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Calendar, FileText, Kanban, Library, DollarSign, BarChart, Brain, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, Calendar, FileText, Kanban, Library, DollarSign, BarChart, Brain, Settings, Link, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -12,6 +12,8 @@ const navItems = [
   { name: 'Financeiro', path: '/finance', icon: DollarSign },
   { name: 'Relatórios', path: '/reports', icon: BarChart },
   { name: 'Inteligência Artificial', path: '/ai', icon: Brain },
+  { name: 'Integrações', path: '/integrations', icon: Link },
+  { name: 'Automações', path: '/automations', icon: Zap },
   { name: 'Configurações', path: '/settings', icon: Settings },
 ];
 
